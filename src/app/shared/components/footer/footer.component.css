@@ -1,3 +1,2 @@
-:host {
-  display: block;
-}
+:host{display:block}
+.site-footer{min-height:64px;padding:20px 24px;display:grid;place-items:center;background:#113D84;color:rgba(255,255,255,.86);text-align:center}.site-footer p{margin:0;font-size:13px}

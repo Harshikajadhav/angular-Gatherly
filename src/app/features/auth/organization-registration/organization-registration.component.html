@@ -1,0 +1,150 @@
+<app-header />
+
+<main class="registration-page" *ngIf="!submitted">
+  <section class="intro">
+    <p class="eyebrow">FOR ORGANIZATIONS</p>
+    <h1>Join Gatherly as an Organization</h1>
+    <p>Register your organization on Gatherly to connect with communities, showcase your services and publish meaningful community events.</p>
+  </section>
+
+  <div class="registration-layout">
+    <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="submit()" novalidate>
+      <section class="form-section">
+        <div class="section-heading"><span>1</span><div><h2>Organization Information</h2><p>Tell us about your organization.</p></div></div>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="organization_name">Organization Name <b>*</b></label>
+            <input id="organization_name" type="text" formControlName="organization_name" placeholder="Enter organization name"/>
+            <small *ngIf="f['organization_name'].touched && f['organization_name'].hasError('required')">Organization name is required.</small>
+            <small *ngIf="f['organization_name'].touched && f['organization_name'].hasError('minlength')">Enter at least 2 characters.</small>
+          </div>
+          <div class="field">
+            <label for="registration_number">Registration Number <b>*</b></label>
+            <input id="registration_number" type="text" formControlName="registration_number" placeholder="e.g. NGO/2024/12345"/>
+            <small *ngIf="f['registration_number'].touched && f['registration_number'].hasError('required')">Registration number is required.</small>
+            <small *ngIf="f['registration_number'].touched && f['registration_number'].hasError('pattern')">Enter a valid identifier with at least 5 characters.</small>
+          </div>
+          <div class="field">
+            <label for="start_date">Organization Start Date <b>*</b></label>
+            <input id="start_date" type="date" formControlName="start_date" [max]="today"/>
+            <small *ngIf="f['start_date'].touched && f['start_date'].hasError('required')">Start date is required.</small>
+            <small *ngIf="f['start_date'].touched && f['start_date'].hasError('futureDate')">Start date cannot be in the future.</small>
+          </div>
+          <div class="field full">
+            <label for="organization_address">Organization Address <b>*</b></label>
+            <textarea id="organization_address" formControlName="organization_address" rows="3" placeholder="Street, area, city, state and postal code"></textarea>
+            <small *ngIf="f['organization_address'].touched && f['organization_address'].hasError('required')">Organization address is required.</small>
+            <small *ngIf="f['organization_address'].touched && f['organization_address'].hasError('minlength')">Enter a complete postal address.</small>
+          </div>
+          <div class="field full">
+            <label for="website_url">Website URL <span>Optional</span></label>
+            <input id="website_url" type="url" formControlName="website_url" placeholder="https://yourorganization.com"/>
+            <small *ngIf="f['website_url'].touched && f['website_url'].hasError('invalidUrl')">Enter a valid URL beginning with http:// or https://.</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-heading"><span>2</span><div><h2>Contact Information</h2><p>Provide an official point of contact.</p></div></div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="email_id">Email ID <b>*</b></label>
+            <input id="email_id" type="email" formControlName="email_id" autocomplete="email" placeholder="contact@organization.org"/>
+            <small *ngIf="f['email_id'].touched && f['email_id'].hasError('required')">Email address is required.</small>
+            <small *ngIf="f['email_id'].touched && f['email_id'].hasError('email')">Enter a valid email address.</small>
+          </div>
+          <div class="field">
+            <label for="phone_no">Phone Number <b>*</b></label>
+            <input id="phone_no" type="tel" formControlName="phone_no" autocomplete="tel" placeholder="+91 98765 43210"/>
+            <small *ngIf="f['phone_no'].touched && f['phone_no'].hasError('required')">Phone number is required.</small>
+            <small *ngIf="f['phone_no'].touched && f['phone_no'].hasError('pattern')">Enter a valid Indian phone number.</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-heading"><span>3</span><div><h2>Organization Branding</h2><p>Add a recognizable profile image.</p></div></div>
+        <div class="profile-upload">
+          <div class="profile-preview" [class.placeholder]="!profilePreview">
+            <img *ngIf="profilePreview" [src]="profilePreview" alt="Organization profile preview"/>
+            <svg *ngIf="!profilePreview" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0H5Z"/></svg>
+          </div>
+          <div class="upload-details">
+            <strong>Profile Picture</strong>
+            <p *ngIf="profileFileName">{{ profileFileName }}</p>
+            <p *ngIf="!profileFileName">JPG, JPEG or PNG</p>
+            <div class="upload-actions">
+              <label class="replace-button">{{ profilePreview ? 'Replace Image' : 'Upload Image' }}<input type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" (change)="onProfileSelected($event)"/></label>
+              <button *ngIf="profilePreview" type="button" class="remove-button" (click)="removeProfilePicture()">Remove</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-heading"><span>4</span><div><h2>Verification Documents</h2><p>Upload documents that confirm your organization.</p></div></div>
+        <label class="document-drop" [class.dragging]="isDragging"
+          (dragover)="onDocumentDragOver($event)" (dragleave)="isDragging=false" (drop)="onDocumentDrop($event)">
+          <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" (change)="onDocumentSelected($event)"/>
+          <span class="cloud-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.35 10.04A7.49 7.49 0 0 0 5.7 7.2 5.5 5.5 0 0 0 6 18h13a4.5 4.5 0 0 0 .35-7.96ZM13 13v4h-2v-4H8l4-4 4 4h-3Z"/></svg></span>
+          <strong>Drag & drop supporting documents</strong>
+          <span>or <u>browse files</u></span>
+          <small>PDF, JPG or PNG • Maximum 10 MB per file</small>
+        </label>
+        <small class="document-error" *ngIf="f['supporting_documents'].touched && f['supporting_documents'].hasError('required')">Upload at least one supporting document.</small>
+        <div class="document-list" *ngIf="supportingDocuments.length">
+          <div class="document-item" *ngFor="let file of supportingDocuments; let i = index">
+            <span class="document-icon">PDF</span>
+            <div><strong>{{ file.name }}</strong><small>{{ formatFileSize(file.size) }}</small></div>
+            <button type="button" (click)="removeDocument(i)" aria-label="Remove document">×</button>
+          </div>
+        </div>
+        <p class="document-note">These documents will be reviewed by the Gatherly administration team.</p>
+      </section>
+
+      <div class="verification-note">
+        <span class="pending-dot"></span>
+        <div><strong>Pending Verification <span>Initial status</span></strong><p>Your organization registration will be reviewed by the Gatherly administration team. Once your documents and information are verified, your organization will receive verified status.</p></div>
+      </div>
+
+      <div class="form-actions">
+        <button class="submit-button" type="submit" [disabled]="isSubmitting">
+          <span *ngIf="!isSubmitting">Submit Registration</span>
+          <span class="loading" *ngIf="isSubmitting"><span class="spinner"></span>Submitting...</span>
+        </button>
+        <button class="reset-button" type="button" (click)="resetForm()">Reset Form</button>
+      </div>
+      <p class="login-link">Already have an account? <a routerLink="/login">Login</a></p>
+    </form>
+
+    <aside class="info-panel">
+      <div class="how-card">
+        <h2>How It Works</h2>
+        <ol class="steps">
+          <li><span>1</span><div><h3>Register Organization</h3><p>Fill in your organization details and submit your application.</p></div></li>
+          <li><span>2</span><div><h3>Admin Verification</h3><p>Our administration team reviews your information and supporting documents.</p></div></li>
+          <li><span>3</span><div><h3>Get Verified</h3><p>Once approved, your organization receives verified status.</p></div></li>
+          <li><span>4</span><div><h3>Access Gatherly</h3><p>Manage your organization profile, publish services and create community events.</p></div></li>
+        </ol>
+      </div>
+      <div class="community-card">
+        <span class="community-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8 13c-3.3 0-6 1.8-6 4v2h12v-2c0-2.2-2.7-4-6-4Zm8 0c-.7 0-1.4.1-2 .2 1.2 1 2 2.2 2 3.8v2h6v-2c0-2.2-2.7-4-6-4Z"/></svg></span>
+        <h3>Stronger Communities Together</h3>
+        <p>Join Gatherly and connect with people, organizations and meaningful opportunities.</p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<main class="success-page" *ngIf="submitted">
+  <section class="success-card">
+    <span class="success-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.2 16.2-4-4L3.8 13.6l5.4 5.4 11-11-1.4-1.4-9.6 9.6Z"/></svg></span>
+    <p class="eyebrow">APPLICATION RECEIVED</p>
+    <h1>Registration Submitted</h1>
+    <p>Your organization application has been submitted for review. Gatherly’s administration team will review the information and supporting documents.</p>
+    <div class="success-status"><span></span> Pending Verification</div>
+    <button type="button" (click)="submitAnother()">Return to Registration</button>
+  </section>
+</main>
+
+<app-footer />

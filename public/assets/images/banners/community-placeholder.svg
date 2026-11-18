@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100">
+  <rect width="900" height="1100" fill="#EAF1FA"/>
+  <circle cx="740" cy="170" r="150" fill="#EAF8EB"/><circle cx="145" cy="280" r="78" fill="#DCEAF7"/>
+  <path d="M0 720c180-110 330-90 460 20 130 110 270 100 440-20v380H0Z" fill="#DDECF6"/>
+  <g fill="#113D84"><circle cx="280" cy="520" r="70"/><circle cx="450" cy="470" r="78"/><circle cx="620" cy="530" r="68"/></g>
+  <g fill="#2EBF32"><circle cx="280" cy="520" r="23"/><circle cx="450" cy="470" r="25"/><circle cx="620" cy="530" r="22"/></g>
+  <g fill="#FFFFFF"><path d="M225 560c20-18 90-18 110 0v210H225Z"/><path d="M392 510c24-20 92-20 116 0v260H392Z"/><path d="M570 570c18-16 82-16 100 0v200H570Z"/></g>
+  <g fill="#64748B" opacity=".45"><path d="M250 570h60v150h-60Z"/><path d="M420 520h60v190h-60Z"/><path d="M592 580h55v140h-55Z"/></g>
+  <path d="M130 820c120-90 240-90 360 0 120-90 230-90 330 0v280H130Z" fill="#C9DDEB"/>
+  <text x="450" y="990" text-anchor="middle" fill="#113D84" font-family="Arial,sans-serif" font-size="28" font-weight="700">COMMUNITY PLACEHOLDER IMAGE</text>
+</svg>
