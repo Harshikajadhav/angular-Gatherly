@@ -1,0 +1,44 @@
+<app-header />
+
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">BUILDING STRONGER COMMUNITIES</p>
+      <h1>Connecting people, services and communities through one trusted platform.</h1>
+      <p class="hero-text">Discover verified healthcare services, NGOs, skill development programs, support services and community events in one accessible place.</p>
+      <div class="hero-actions">
+        <a class="button primary" routerLink="/discover-services">Discover Services</a>
+        <a class="button secondary" routerLink="/events">Explore Events</a>
+      </div>
+    </div>
+    <div class="hero-image-frame">
+      <img [src]="heroImage" (error)="useFallbackImage($event)" alt="Gatherly connecting citizens, services and communities">
+    </div>
+  </section>
+
+  <section class="section categories-section">
+    <div class="section-heading"><p class="eyebrow">DISCOVER</p><h2>Explore what Gatherly offers</h2><p>Find the services, support and opportunities that matter to you.</p></div>
+    <div class="category-grid">
+      <a class="category-card public-card" routerLink="/discover-services/ngo-support"><span class="category-icon">♥</span><h3>NGO and Support</h3><p>Discover NGOs, social welfare initiatives and support services.</p><span class="card-link">Explore category →</span></a>
+      <a class="category-card public-card" routerLink="/discover-services/health-centers"><span class="category-icon">+</span><h3>Health Centers</h3><p>Find healthcare facilities, medical assistance and wellness services.</p><span class="card-link">Explore category →</span></a>
+      <a class="category-card public-card" routerLink="/discover-services/learning-centers"><span class="category-icon">◆</span><h3>Learning Centers</h3><p>Explore learning opportunities and skill development programs.</p><span class="card-link">Explore category →</span></a>
+      <a class="category-card public-card" routerLink="/discover-services/community-events"><span class="category-icon">◷</span><h3>Community Events</h3><p>Discover local events, volunteering opportunities and activities.</p><span class="card-link">Explore category →</span></a>
+    </div>
+  </section>
+
+  <section class="section events-section">
+    <div class="section-heading split"><div><p class="eyebrow">CONNECT</p><h2>Discover events that bring people together</h2><p>Explore opportunities to participate, contribute and connect.</p></div><a class="text-link" routerLink="/events">Explore all events →</a></div>
+    <div class="event-grid" *ngIf="events.length; else noEvents">
+      <article class="event-card public-card" *ngFor="let event of events"><img [src]="event.image_url || '/assets/images/logo/gatherly-mark.svg'" [alt]="event.title"><div><span class="event-category">{{ event.category }}</span><h3>{{ event.title }}</h3><p>{{ event.description }}</p><dl><span><dt>Date</dt><dd>{{ event.date }}</dd></span><span><dt>Location</dt><dd>{{ event.location }}</dd></span></dl><a [routerLink]="['/events', event.id]">View details →</a></div></article>
+    </div>
+    <ng-template #noEvents><div class="empty-state"><h3>Events are coming soon</h3><p>Check back shortly for new opportunities in your community.</p></div></ng-template>
+  </section>
+
+  <section class="steps-section"><div class="section-heading"><p class="eyebrow">GET INVOLVED</p><h2>Simple steps to participate</h2></div><div class="steps"><div class="step"><span>⌕</span><h3>Browse Events</h3><p>Discover community events and opportunities available on Gatherly.</p></div><div class="step"><span>▤</span><h3>View Details</h3><p>Explore event information, dates, locations and organizations.</p></div><div class="step"><span>♙</span><h3>Register</h3><p>Register for events that interest you.</p></div><div class="step"><span>♥</span><h3>Participate</h3><p>Join activities and become part of positive community change.</p></div></div></section>
+
+  <section class="section benefits-section"><div class="section-heading"><p class="eyebrow">WHY GATHERLY</p><h2>One platform. Stronger communities.</h2></div><div class="benefits"><div><b>Trusted Connections</b><p>Find relevant services and opportunities in one place.</p></div><div><b>Accessible for All</b><p>Clear information and responsive experiences across devices.</p></div><div><b>Verified Organizations</b><p>Organization verification status is shown where applicable.</p></div><div><b>Meaningful Opportunities</b><p>Discover ways to learn, contribute and stay connected.</p></div></div></section>
+
+  <section class="cta"><div><p class="eyebrow">JOIN THE COMMUNITY</p><h2>Be part of positive community change.</h2><p>Explore opportunities that help you learn, contribute and stay connected.</p></div><a class="button primary" routerLink="/events">Explore All Events</a></section>
+</main>
+<app-go-to-top />
+<app-footer />

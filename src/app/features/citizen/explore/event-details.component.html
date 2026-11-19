@@ -41,10 +41,17 @@
         <h2>Join this event</h2>
         <p>Reserve your place or offer your time to support this community activity.</p>
         <div class="actions">
-          <button type="button" (click)="register()">Register for this Event</button>
+          <button type="button" [disabled]="isRegistered" (click)="register()">{{ isRegistered ? 'Already Registered' : 'Register for this Event' }}</button>
           <button type="button" class="secondary" (click)="volunteer()">Volunteer for this Event</button>
         </div>
         <p class="confirmation" *ngIf="confirmationMessage" role="status">{{ confirmationMessage }}</p>
+      </section>
+
+      <section class="content-card completed-card" *ngIf="isCompleted">
+        <span class="completed-badge">Event Completed</span>
+        <h2>Event Completed</h2>
+        <p>This event has been marked as completed. If you experienced any issues or would like to report something about this event, you can submit a report below.</p>
+        <button type="button" class="report-button" (click)="openReport()">Report an Issue</button>
       </section>
     </div>
 
@@ -59,6 +66,7 @@
         </div>
       </div>
       <p>{{ event.organization.description }}</p>
+      <a class="organization-link" [routerLink]="['/organizations', event.organization.id]">View Organization</a>
       <dl>
         <div><dt>Address</dt><dd>{{ event.organization.organization_address }}</dd></div>
         <div *ngIf="event.organization.email_id"><dt>Email</dt><dd><a [href]="'mailto:' + event.organization.email_id">{{ event.organization.email_id }}</a></dd></div>
@@ -69,6 +77,30 @@
 </main>
 
 <app-confirmation-dialog
+  [open]="reportDialogOpen"
+  [customContent]="true"
+  title="Report an Issue"
+  (cancelled)="reportDialogOpen = false">
+  <div class="report-form" role="dialog" aria-modal="true" aria-label="Report an Issue">
+    <p class="eyebrow">REPORT AN ISSUE</p><h2>Report an Issue</h2>
+    <label><span>Event Name</span><input [value]="event?.title || ''" readonly /></label>
+    <label><span>Description</span><textarea [(ngModel)]="reportDescription" rows="5" placeholder="Please describe the issue you experienced during or after the event..."></textarea></label>
+    <label><span>Upload Image <em>(Optional)</em></span><input type="file" accept="image/*" (change)="onReportImageSelected($event)" /></label>
+    <div class="report-preview" *ngIf="reportImagePreview"><img [src]="reportImagePreview" alt="Selected issue attachment" /><button type="button" (click)="removeReportImage()">Remove image</button></div>
+    <p class="report-error" *ngIf="reportError">{{ reportError }}</p>
+    <div class="report-actions"><button type="button" class="cancel" (click)="reportDialogOpen = false">Cancel</button><button type="button" [disabled]="reportSubmitting || !reportDescription.trim()" (click)="submitReport()">{{ reportSubmitting ? 'Submitting...' : 'Submit Report' }}</button></div>
+  </div>
+</app-confirmation-dialog>
+
+<app-confirmation-dialog
+  [open]="registrationDialogOpen"
+  title="Register for this event?"
+  [message]="'Would you like to register for ' + (event?.title || 'this event') + '?'"
+  confirmLabel="Confirm Registration"
+  (confirmed)="confirmRegistration()"
+  (cancelled)="registrationDialogOpen = false" />
+
+<app-confirmation-dialog
   [open]="volunteerDialogOpen"
   title="Volunteer for this event?"
   message="Would you like to volunteer? After confirmation, you can contact the organization directly."
@@ -77,3 +109,4 @@
   (cancelled)="cancelVolunteer()" />
 
 <app-footer *ngIf="!isCitizenPortal" />
+<app-go-to-top />

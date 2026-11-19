@@ -1,0 +1,11 @@
+<main class="organization-details-page">
+  <a routerLink="/discover-services" class="back-link">Back to services</a>
+  <div class="loading-state" *ngIf="isLoading">Loading organization details...</div>
+  <section class="error-state" *ngIf="errorMessage && !isLoading"><h1>{{ errorMessage }}</h1></section>
+  <article class="organization-detail-card" *ngIf="organization && !isLoading">
+    <div class="organization-heading"><img [src]="organization.profile_pic || '/assets/images/logo/gatherly-mark.svg'" [alt]="organization.organization_name" /><div><p class="eyebrow">ORGANIZATION</p><h1>{{ organization.organization_name }}</h1><span>{{ organization.organization_type }}</span></div></div>
+    <p class="description" *ngIf="organization.description">{{ organization.description }}</p>
+    <dl><div *ngIf="organization.organization_address"><dt>Address</dt><dd>{{ organization.organization_address }}</dd></div><div *ngIf="organization.website_url"><dt>Website</dt><dd><a [href]="organization.website_url" target="_blank" rel="noopener">{{ organization.website_url }}</a></dd></div><div *ngIf="organization.email_id"><dt>Email</dt><dd><a [href]="'mailto:' + organization.email_id">{{ organization.email_id }}</a></dd></div><div *ngIf="organization.phone_no"><dt>Phone</dt><dd><a [href]="'tel:' + organization.phone_no">{{ organization.phone_no }}</a></dd></div><div><dt>Verification</dt><dd>{{ organization.verification_status | titlecase }}</dd></div></dl>
+  </article>
+</main>
+<app-go-to-top />

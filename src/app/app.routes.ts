@@ -6,7 +6,17 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login'
+    loadComponent: () =>
+      import('./features/public/home/home.component').then(
+        (module) => module.HomeComponent
+      )
+  },
+  {
+    path: 'about',
+    loadComponent: () =>
+      import('./features/public/about/about.component').then(
+        (module) => module.AboutComponent
+      )
   },
   {
     path: 'login',
@@ -41,6 +51,20 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/citizen/explore/category-events.component').then(
         (module) => module.CategoryEventsComponent
+      )
+  },
+  {
+    path: 'organizations/:organizationId',
+    loadComponent: () =>
+      import('./features/citizen/explore/organization-details.component').then(
+        (module) => module.OrganizationDetailsComponent
+      )
+  },
+  {
+    path: 'events',
+    loadComponent: () =>
+      import('./features/public/events/events.component').then(
+        (module) => module.PublicEventsComponent
       )
   },
   {
@@ -185,6 +209,13 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'events/:eventId/participants',
+        loadComponent: () =>
+          import('./features/admin/management/event-participants.component').then(
+            (module) => module.EventParticipantsComponent
+          )
+      },
+      {
         path: 'services',
         data: { kind: 'services' },
         loadComponent: () =>
@@ -243,11 +274,8 @@ export const routes: Routes = [
       },
       {
         path: 'my-services',
-        data: { kind: 'services' },
-        loadComponent: () =>
-          import('./features/organization/management/organization-management.component').then(
-            (module) => module.OrganizationManagementComponent
-          )
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
       },
       {
         path: 'my-events',
@@ -255,6 +283,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/organization/management/organization-management.component').then(
             (module) => module.OrganizationManagementComponent
+          )
+      },
+      {
+        path: 'my-events/:eventId/participants',
+        loadComponent: () =>
+          import('./features/admin/management/event-participants.component').then(
+            (module) => module.EventParticipantsComponent
           )
       },
       {
@@ -274,11 +309,8 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
-        data: { role: 'organization' },
-        loadComponent: () =>
-          import('./features/citizen/profile/profile.component').then(
-            (module) => module.CitizenProfileComponent
-          )
+        redirectTo: 'my-organization',
+        pathMatch: 'full'
       },
       {
         path: 'settings',
@@ -317,11 +349,8 @@ export const routes: Routes = [
       },
       {
         path: 'my-services',
-        data: { kind: 'services' },
-        loadComponent: () =>
-          import('./features/user-organizer/management/management.component').then(
-            (module) => module.UserOrganizerManagementComponent
-          )
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
       },
       {
         path: 'my-events',
@@ -329,6 +358,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/user-organizer/management/management.component').then(
             (module) => module.UserOrganizerManagementComponent
+          )
+      },
+      {
+        path: 'my-events/:eventId/participants',
+        loadComponent: () =>
+          import('./features/admin/management/event-participants.component').then(
+            (module) => module.EventParticipantsComponent
           )
       },
       {

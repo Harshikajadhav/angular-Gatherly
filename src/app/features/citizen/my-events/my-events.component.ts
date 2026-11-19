@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { RegisteredEvent, CitizenDataService } from '../../../core/services/citizen-data.service';
+import { RegisteredEvent, VolunteeredEvent, CitizenDataService } from '../../../core/services/citizen-data.service';
 
-type EventTab = 'UPCOMING' | 'COMPLETED' | 'CANCELLED';
+type EventTab = 'REGISTERED' | 'VOLUNTEERED';
 
 @Component({
   selector: 'app-citizen-my-events',
@@ -17,12 +17,12 @@ export class CitizenMyEventsComponent implements OnInit {
   private readonly router = inject(Router);
 
   readonly tabs: { label: string; value: EventTab }[] = [
-    { label: 'Upcoming', value: 'UPCOMING' },
-    { label: 'Completed', value: 'COMPLETED' },
-    { label: 'Cancelled', value: 'CANCELLED' }
+    { label: 'Registered Events', value: 'REGISTERED' },
+    { label: 'Volunteered Events', value: 'VOLUNTEERED' }
   ];
-  activeTab: EventTab = 'UPCOMING';
+  activeTab: EventTab = 'REGISTERED';
   registrations: RegisteredEvent[] = [];
+  volunteeredEvents: VolunteeredEvent[] = [];
   isLoading = true;
 
   ngOnInit(): void {
@@ -30,17 +30,25 @@ export class CitizenMyEventsComponent implements OnInit {
       next: (registrations) => { this.registrations = registrations; this.isLoading = false; },
       error: () => this.isLoading = false
     });
+    this.citizenData.getVolunteeredEvents().subscribe({
+      next: (events) => this.volunteeredEvents = events,
+      error: () => this.volunteeredEvents = []
+    });
   }
 
-  get visibleEvents(): RegisteredEvent[] {
-    return this.registrations.filter((registration) =>
-      this.activeTab === 'UPCOMING'
-        ? registration.status === 'REGISTERED'
-        : registration.status === this.activeTab
-    );
+  get visibleRegisteredEvents(): RegisteredEvent[] {
+    return this.registrations;
+  }
+
+  get visibleVolunteeredEvents(): VolunteeredEvent[] {
+    return this.volunteeredEvents;
   }
 
   openEvent(id: number): void {
     void this.router.navigate(['/citizen/events', id]);
+  }
+
+  exploreEvents(): void {
+    void this.router.navigate(['/citizen/discover-events']);
   }
 }

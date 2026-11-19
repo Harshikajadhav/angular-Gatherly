@@ -2,12 +2,19 @@
   <div class="page-intro"><p class="eyebrow">YOUR ACTIVITY</p><h2>My Events</h2><p>Keep track of the events you have joined and the impact you are making.</p></div>
   <div class="tabs" role="tablist"><button *ngFor="let tab of tabs" type="button" [class.active]="activeTab === tab.value" (click)="activeTab = tab.value">{{ tab.label }}</button></div>
   <div class="loading-state" *ngIf="isLoading">Loading your events...</div>
-  <div class="event-list" *ngIf="!isLoading && visibleEvents.length">
-    <article class="registered-card" *ngFor="let registration of visibleEvents">
+  <div class="event-list" *ngIf="!isLoading && activeTab === 'REGISTERED' && visibleRegisteredEvents.length">
+    <article class="registered-card" *ngFor="let registration of visibleRegisteredEvents">
       <img [src]="registration.event.image_url || '/assets/images/services/community.svg'" [alt]="registration.event.title" />
       <div class="registered-body"><div class="date">{{ registration.event.date | date: 'MMM d, y' }} · {{ registration.event.start_time }}</div><h3>{{ registration.event.title }}</h3><p>{{ registration.event.location }}</p><span>{{ registration.event.organization.organization_name }}</span></div>
       <div class="registered-actions"><b [class.completed]="registration.status === 'COMPLETED'">{{ registration.status | titlecase }}</b><button type="button" (click)="openEvent(registration.event.id)">View Details</button></div>
     </article>
   </div>
-  <div class="empty-state" *ngIf="!isLoading && !visibleEvents.length"><span>○</span><h3>No {{ activeTab | lowercase }} events</h3><p>Events you join will appear here.</p><button type="button" (click)="activeTab = 'UPCOMING'">Explore Events</button></div>
+  <div class="event-list" *ngIf="!isLoading && activeTab === 'VOLUNTEERED' && visibleVolunteeredEvents.length">
+    <article class="registered-card" *ngFor="let volunteering of visibleVolunteeredEvents">
+      <img [src]="volunteering.event.image_url || '/assets/images/services/community.svg'" [alt]="volunteering.event.title" />
+      <div class="registered-body"><div class="date">{{ volunteering.event.date | date: 'MMM d, y' }} · {{ volunteering.event.start_time }}</div><h3>{{ volunteering.event.title }}</h3><p>{{ volunteering.event.location }}</p><span>{{ volunteering.event.organization.organization_name }}</span></div>
+      <div class="registered-actions"><b>{{ volunteering.status | titlecase }}</b><button type="button" (click)="openEvent(volunteering.event.id)">View Details</button></div>
+    </article>
+  </div>
+  <div class="empty-state" *ngIf="!isLoading && ((activeTab === 'REGISTERED' && !visibleRegisteredEvents.length) || (activeTab === 'VOLUNTEERED' && !visibleVolunteeredEvents.length))"><span>○</span><h3>No {{ activeTab === 'REGISTERED' ? 'registered' : 'volunteered' }} events</h3><p>Events you join will appear here.</p><button type="button" (click)="exploreEvents()">Explore Events</button></div>
 </section>

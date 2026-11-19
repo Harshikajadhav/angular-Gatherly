@@ -20,7 +20,7 @@
   </section>
 
   <section class="event-grid" *ngIf="category && !isLoading && !errorMessage" aria-label="Events">
-    <app-event-card *ngFor="let event of events" [event]="event" (details)="openEvent($event)" />
+    <app-event-card class="public-card" *ngFor="let event of events" [event]="event" (details)="openEvent($event)" />
   </section>
 
   <section class="empty-state" *ngIf="category && !isLoading && !errorMessage && !events.length">

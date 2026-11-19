@@ -4,4 +4,5 @@
     <app-dashboard-header [title]="pageTitle" [portalLabel]="portalLabel" [rootPath]="isAdmin ? '/admin' : isOrganization ? '/organization' : isUserOrganizer ? '/user-organizer' : '/citizen'" [userName]="userName" [profilePic]="profilePic" (menuToggle)="sidebarOpen = !sidebarOpen" />
     <main class="dashboard-main"><router-outlet /></main>
   </div>
+  <app-go-to-top />
 </div>

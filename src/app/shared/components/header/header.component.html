@@ -1,5 +1,5 @@
 <header class="site-header">
-  <a class="brand" routerLink="/login" aria-label="Gatherly home">
+  <a class="brand" routerLink="/" aria-label="Gatherly home">
     <span class="brand-mark" aria-hidden="true">
       <svg viewBox="0 0 44 44">
         <path d="M22 3.5a18.5 18.5 0 1 0 18.5 18.5H22V14.2h9.2A9.8 9.8 0 1 1 22 12.2V3.5Z"/>
@@ -8,14 +8,25 @@
     </span>
     <span>Gatherly</span>
   </a>
+  <nav class="main-nav" aria-label="Main navigation">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a routerLink="/discover-services" routerLinkActive="active">Services</a>
+    <a routerLink="/events" routerLinkActive="active">Events</a>
+    <a routerLink="/about" routerLinkActive="active">About</a>
+  </nav>
   <div class="header-actions">
     <span class="location" aria-label="Location: India">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
       India
     </span>
-    <button class="language" type="button" aria-label="Select language">
-      EN
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9.5 5 5 5-5Z"/></svg>
-    </button>
+    <details class="account"><summary aria-label="Account">◯</summary><div class="dropdown account-menu"><a routerLink="/login">Login</a><a routerLink="/register">Register</a></div></details>
+    <button class="menu-button" type="button" aria-label="Toggle menu" (click)="mobileMenuOpen = !mobileMenuOpen">☰</button>
   </div>
+  <nav class="mobile-nav" *ngIf="mobileMenuOpen" aria-label="Mobile navigation">
+    <a routerLink="/" (click)="mobileMenuOpen = false">Home</a>
+    <a routerLink="/discover-services" (click)="mobileMenuOpen = false">Services</a>
+    <a routerLink="/events" (click)="mobileMenuOpen = false">Events</a>
+    <a routerLink="/about" (click)="mobileMenuOpen = false">About Gatherly</a>
+    <a routerLink="/login" (click)="mobileMenuOpen = false">Login</a>
+  </nav>
 </header>

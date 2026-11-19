@@ -6,13 +6,14 @@ import { AdminOrganization, AdminReport, AdminUser } from '../../../core/models/
 import { GatherlyEvent } from '../../../core/models/event.model';
 import { GatherlyService } from '../../../core/models/service.model';
 import { AdminDataService } from '../../../core/services/admin-data.service';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 type ManagementKind = 'users' | 'organizations' | 'events' | 'services' | 'reports';
 
 @Component({
   selector: 'app-admin-management',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ConfirmationDialogComponent],
   templateUrl: './admin-management.component.html',
   styleUrl: './admin-management.component.css'
 })
@@ -34,6 +35,8 @@ export class AdminManagementComponent implements OnInit {
   selectedReport?: AdminReport;
   page = 1;
   pageSize = 5;
+  selectedEvent?: GatherlyEvent;
+  confirmedEventIds = new Set<number>();
 
   ngOnInit(): void {
     this.kind = (this.route.snapshot.data['kind'] || 'users') as ManagementKind;
@@ -61,7 +64,7 @@ export class AdminManagementComponent implements OnInit {
   get filteredEvents(): GatherlyEvent[] { return this.events.filter((event) => this.matches(`${event.title} ${event.organization.organization_name} ${event.location}`) && (!this.category || event.category === this.category)); }
   get filteredServices(): GatherlyService[] { return this.services.filter((service) => this.matches(`${service.service_name} ${service.organization.organization_name}`) && (!this.category || service.category === this.category)); }
   get filteredReports(): AdminReport[] { return this.reports.filter((report) => this.matches(`${report.subject} ${report.submitted_by} ${report.category}`) && (!this.status || report.status === this.status)); }
-  get categories(): string[] { return [...new Set([...this.events.map((event) => event.category), ...this.services.map((service) => service.category)])].sort(); }
+  get categories(): string[] { return ['NGO and Support', 'Health Centers', 'Learning Centers', 'Community Events']; }
   get currentCount(): number { return this.kind === 'users' ? this.filteredUsers.length : this.kind === 'organizations' ? this.filteredOrganizations.length : this.kind === 'events' ? this.filteredEvents.length : this.kind === 'services' ? this.filteredServices.length : this.filteredReports.length; }
 
   matches(value: string): boolean { return !this.searchText || value.toLowerCase().includes(this.searchText.toLowerCase()); }
@@ -69,4 +72,15 @@ export class AdminManagementComponent implements OnInit {
   openReport(report: AdminReport): void { this.selectedReport = report; }
   resolveReport(report: AdminReport): void { this.adminData.updateReportStatus(report.id, 'RESOLVED'); report.status = 'RESOLVED'; this.selectedReport = undefined; }
   viewOrganization(id: number): void { void this.router.navigate(['/admin/organizations', id]); }
+  reviewOrganization(id: number): void { void this.router.navigate(['/admin/organization-verification', id]); }
+  askConfirmEvent(event: GatherlyEvent): void { this.selectedEvent = event; }
+  confirmEvent(): void {
+    if (this.selectedEvent) this.confirmedEventIds.add(this.selectedEvent.id);
+    this.selectedEvent = undefined;
+  }
+  eventConfirmed(event: GatherlyEvent): boolean { return this.confirmedEventIds.has(event.id); }
+  viewEventParticipants(event: GatherlyEvent): void { void this.router.navigate(['/admin/events', event.id, 'participants']); }
+  organizationStatus(status: AdminOrganization['verification_status']): string {
+    return status === 'UNVERIFIED' ? 'Rejected' : status === 'PENDING' ? 'Pending' : 'Verified';
+  }
 }

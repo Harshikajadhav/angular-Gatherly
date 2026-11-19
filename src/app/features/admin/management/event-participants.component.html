@@ -1,0 +1,5 @@
+<section class="participants-page">
+  <div class="page-intro"><div><p class="eyebrow">EVENT MANAGEMENT</p><h2>Participants & Volunteers</h2><p *ngIf="event">People associated with {{ event.title }}.</p><p *ngIf="unavailable">This event is unavailable for the current portal.</p></div><a class="back-link" routerLink="../..">Back to events</a></div>
+  <div class="event-summary" *ngIf="event"><strong>{{ event.title }}</strong><span>{{ event.date | date: 'MMM d, y' }} · {{ event.location }}</span></div>
+  <div class="table-card" *ngIf="event"><table><thead><tr><th>Citizen</th><th>Email</th><th>Phone</th><th>Registered</th><th>Status</th></tr></thead><tbody><tr *ngFor="let registration of registrations"><td>{{ registration.citizen_name }}</td><td>{{ registration.email_id }}</td><td>{{ registration.phone_number || '—' }}</td><td>{{ registration.registration_date | date: 'MMM d, y' }}</td><td><span class="status-pill">{{ registration.status | titlecase }}</span></td></tr></tbody></table><div class="empty-state" *ngIf="!registrations.length"><h3>No participants yet</h3><p>No registrations are available for this event.</p></div></div>
+</section>

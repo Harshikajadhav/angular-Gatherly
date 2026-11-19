@@ -1,0 +1,1 @@
+.go-to-top{position:fixed;right:24px;bottom:24px;z-index:30;width:42px;height:42px;border:0;border-radius:50%;background:#113D84;color:#fff;font-size:22px;line-height:1;box-shadow:0 8px 20px #113d8433;cursor:pointer}.go-to-top:focus-visible{outline:3px solid #2EBF32;outline-offset:3px}@media(max-width:600px){.go-to-top{right:16px;bottom:16px}}

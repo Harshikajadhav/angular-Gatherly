@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, delay, of } from 'rxjs';
+import { map } from 'rxjs';
 import { AdminActivity, AdminOrganization, AdminReport, AdminUser, ReportStatus } from '../models/admin.model';
+import { OrganizationRegistration } from '../models/organization-dashboard.model';
 import { CitizenProfile } from '../models/dashboard.model';
 import { GatherlyEvent } from '../models/event.model';
 import { GatherlyService } from '../models/service.model';
@@ -58,6 +60,19 @@ export class AdminDataService {
   getReports(): Observable<AdminReport[]> { return of([...this.reports]).pipe(delay(180)); }
   getActivities(): Observable<AdminActivity[]> { return of([...this.activities]).pipe(delay(180)); }
   getEvents(): Observable<GatherlyEvent[]> { return this.eventService.getEvents(); }
+  getEventRegistrations(eventId: number): Observable<OrganizationRegistration[]> {
+    return this.getEvents().pipe(map((events) => {
+      const event = events.find((item) => item.id === eventId);
+      return event ? [{
+        event,
+        citizen_name: 'Aarav Sharma',
+        email_id: 'aarav.sharma@example.com',
+        phone_number: '+91 98765 40000',
+        registration_date: '2026-11-15',
+        status: 'REGISTERED'
+      }] : [];
+    }));
+  }
   getServices(): Observable<GatherlyService[]> { return this.serviceService.getServices(); }
   getPendingOrganizations(): AdminOrganization[] { return this.organizations.filter((organization) => organization.verification_status === 'PENDING'); }
 

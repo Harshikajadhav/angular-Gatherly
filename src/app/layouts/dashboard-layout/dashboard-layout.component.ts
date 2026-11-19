@@ -5,11 +5,12 @@ import { filter } from 'rxjs';
 import { DashboardNavItem } from '../../core/models/dashboard.model';
 import { DashboardHeaderComponent } from '../../shared/components/dashboard-header/dashboard-header.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { GoToTopComponent } from '../../shared/components/go-to-top/go-to-top.component';
 
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [RouterOutlet, SidebarComponent, DashboardHeaderComponent],
+  imports: [RouterOutlet, SidebarComponent, DashboardHeaderComponent, GoToTopComponent],
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.css'
 })
@@ -18,7 +19,6 @@ export class DashboardLayoutComponent {
     { label: 'Dashboard', route: '/citizen/dashboard', icon: 'dashboard' },
     { label: 'Discover Services', route: '/citizen/discover-services', icon: 'services' },
     { label: 'Discover Events', route: '/citizen/discover-events', icon: 'events' },
-    { label: 'Event Details', route: '/citizen/events/101', icon: 'detail' },
     { label: 'My Events', route: '/citizen/my-events', icon: 'calendar' },
     { label: 'My Profile', route: '/citizen/profile', icon: 'profile' },
     { label: 'Settings', route: '/citizen/settings', icon: 'settings' }
@@ -27,7 +27,6 @@ export class DashboardLayoutComponent {
     { label: 'Dashboard', route: '/admin/dashboard', icon: 'dashboard' },
     { label: 'User Management', route: '/admin/users', icon: 'profile' },
     { label: 'Organization Management', route: '/admin/organizations', icon: 'organization' },
-    { label: 'Organization Verification', route: '/admin/organization-verification', icon: 'verification' },
     { label: 'Event Management', route: '/admin/events', icon: 'events' },
     { label: 'Service Management', route: '/admin/services', icon: 'services' },
     { label: 'Reports & Complaints', route: '/admin/reports', icon: 'reports' },
@@ -37,20 +36,14 @@ export class DashboardLayoutComponent {
   readonly organizationNavItems: DashboardNavItem[] = [
     { label: 'Dashboard', route: '/organization/dashboard', icon: 'dashboard' },
     { label: 'My Organization', route: '/organization/my-organization', icon: 'organization' },
-    { label: 'My Services', route: '/organization/my-services', icon: 'services' },
     { label: 'My Events', route: '/organization/my-events', icon: 'events' },
-    { label: 'Create Event', route: '/organization/create-event', icon: 'calendar' },
-    { label: 'Event Participants', route: '/organization/event-participants', icon: 'profile' },
     { label: 'My Profile', route: '/organization/profile', icon: 'profile' },
     { label: 'Settings', route: '/organization/settings', icon: 'settings' }
   ];
   readonly userOrganizerNavItems: DashboardNavItem[] = [
     { label: 'Dashboard', route: '/user-organizer/dashboard', icon: 'dashboard' },
     { label: 'My Organizer Profile', route: '/user-organizer/organizer-profile', icon: 'organization' },
-    { label: 'My Services', route: '/user-organizer/my-services', icon: 'services' },
     { label: 'My Events', route: '/user-organizer/my-events', icon: 'events' },
-    { label: 'Create Event', route: '/user-organizer/create-event', icon: 'calendar' },
-    { label: 'Event Participants', route: '/user-organizer/event-participants', icon: 'profile' },
     { label: 'My Profile', route: '/user-organizer/profile', icon: 'profile' },
     { label: 'Settings', route: '/user-organizer/settings', icon: 'settings' }
   ];
@@ -83,6 +76,10 @@ export class DashboardLayoutComponent {
   }
 
   private updateTitle(url: string): void {
+    if (url.includes('/participants')) {
+      this.pageTitle = 'Event Participants';
+      return;
+    }
     const titles: Record<string, string> = {
       '/citizen/dashboard': 'Dashboard',
       '/citizen/discover-services': 'Discover Services',
