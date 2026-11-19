@@ -1,0 +1,139 @@
+[
+  {
+    "id": 1,
+    "service_name": "Community Health Screening",
+    "description": "Free health checks and basic consultations for families in the neighborhood.",
+    "full_description": "Regular community health screening camps provide blood pressure, blood sugar and basic health assessments, along with guidance on follow-up care. Appointments and walk-in availability depend on the scheduled camp.",
+    "category": "Health Centers",
+    "location": "Bengaluru",
+    "image_url": "/assets/images/services/healthcare.svg",
+    "supporting_information": ["Basic health screening", "Community outreach", "Appointments recommended"],
+    "organization": {
+      "id": 101,
+      "organization_name": "CareBridge Foundation",
+      "organization_address": "18 Green Avenue, Indiranagar, Bengaluru",
+      "website_url": "https://example.org",
+      "profile_pic": "/assets/images/logo/gatherly-mark.svg",
+      "email_id": "hello@carebridge.org",
+      "phone_no": "+91 98765 43210",
+      "verification_status": "VERIFIED",
+      "verified_by_admin": "Gatherly Administration",
+      "verification_date": "2026-09-14",
+      "description": "CareBridge Foundation improves access to essential healthcare through community-led screening and education programs.",
+      "organization_type": "NGO"
+    }
+  },
+  {
+    "id": 2,
+    "service_name": "Free Digital Skills Classes",
+    "description": "Practical digital literacy sessions for students and working adults.",
+    "full_description": "Guided group sessions introduce email, document creation, online safety and essential workplace digital tools. Training is offered in small batches and adapted to participant experience.",
+    "category": "Learning Centers",
+    "location": "Pune",
+    "image_url": "/assets/images/services/education.svg",
+    "supporting_information": ["Beginner-friendly", "Small group sessions", "Certificate available"],
+    "organization": {
+      "id": 102,
+      "organization_name": "NextStep Learning Trust",
+      "organization_address": "42 Learning Road, Kothrud, Pune",
+      "website_url": "https://example.org",
+      "profile_pic": "/assets/images/logo/gatherly-mark.svg",
+      "email_id": "training@nextstep.org",
+      "phone_no": "+91 99876 54321",
+      "verification_status": "VERIFIED",
+      "verified_by_admin": "Gatherly Administration",
+      "verification_date": "2026-08-22",
+      "description": "NextStep Learning Trust provides accessible learning and employability programs for underserved communities.",
+      "organization_type": "Educational Institution"
+    }
+  },
+  {
+    "id": 3,
+    "service_name": "After-School Learning Support",
+    "description": "Tutoring and guided study sessions for primary school children.",
+    "full_description": "A safe after-school program offering subject support, reading practice and supervised homework time. Volunteers tailor activities to each child's classroom requirements.",
+    "category": "Learning Centers",
+    "location": "Chennai",
+    "image_url": "/assets/images/services/community.svg",
+    "supporting_information": ["Age groups 8-14", "Weekday sessions", "Learning materials provided"],
+    "organization": {
+      "id": 103,
+      "organization_name": "Little Horizons",
+      "organization_address": "9 Park Lane, Adyar, Chennai",
+      "profile_pic": "/assets/images/logo/gatherly-mark.svg",
+      "email_id": "connect@littlehorizons.org",
+      "phone_no": "+91 91234 56780",
+      "verification_status": "PENDING",
+      "description": "Little Horizons creates supportive learning spaces for children through tutoring and enrichment activities.",
+      "organization_type": "Charity"
+    }
+  },
+  {
+    "id": 4,
+    "service_name": "Women Entrepreneurs Network",
+    "description": "Mentorship and peer support for women growing a small business.",
+    "full_description": "The network connects women-led businesses with mentors, practical workshops and a peer community covering finance, marketing and sustainable growth.",
+    "category": "NGO and Support",
+    "location": "Hyderabad",
+    "image_url": "/assets/images/services/women.svg",
+    "supporting_information": ["Mentor matching", "Monthly workshops", "Peer network"],
+    "organization": {
+      "id": 104,
+      "organization_name": "Shakti Collective",
+      "organization_address": "25 Community Hub, Jubilee Hills, Hyderabad",
+      "website_url": "https://example.org",
+      "profile_pic": "/assets/images/logo/gatherly-mark.svg",
+      "email_id": "network@shakti.org",
+      "phone_no": "+91 90000 12345",
+      "verification_status": "VERIFIED",
+      "verified_by_admin": "Gatherly Administration",
+      "verification_date": "2026-07-11",
+      "description": "Shakti Collective enables women entrepreneurs through mentorship, skills and community networks.",
+      "organization_type": "Nonprofit"
+    }
+  },
+  {
+    "id": 5,
+    "service_name": "Senior Community Wellness",
+    "description": "Wellness talks, social activities and regular health reminders for seniors.",
+    "full_description": "This program combines gentle fitness, nutrition information and social meetups designed to support the physical and social wellbeing of senior citizens.",
+    "category": "Health Centers",
+    "location": "Mumbai",
+    "image_url": "/assets/images/services/seniors.svg",
+    "supporting_information": ["Low-impact activity", "Health awareness", "Social meetups"],
+    "organization": {
+      "id": 105,
+      "organization_name": "Golden Circle",
+      "organization_address": "7 Marine Plaza, Mumbai",
+      "profile_pic": "/assets/images/logo/gatherly-mark.svg",
+      "email_id": "care@goldencircle.org",
+      "phone_no": "+91 98989 67676",
+      "verification_status": "VERIFIED",
+      "verified_by_admin": "Gatherly Administration",
+      "verification_date": "2026-06-02",
+      "description": "Golden Circle builds active, connected and supported communities for senior citizens.",
+      "organization_type": "Community Organization"
+    }
+  },
+  {
+    "id": 6,
+    "service_name": "Neighborhood Resource Connect",
+    "description": "A local support desk for essential services and community assistance.",
+    "full_description": "Volunteers help residents identify relevant local resources, complete application steps and connect with trusted community support providers.",
+    "category": "Community Events",
+    "location": "Delhi",
+    "image_url": "/assets/images/services/community.svg",
+    "supporting_information": ["Referral support", "Document guidance", "Community volunteers"],
+    "organization": {
+      "id": 106,
+      "organization_name": "Common Ground Delhi",
+      "organization_address": "31 Nehru Nagar, New Delhi",
+      "profile_pic": "/assets/images/logo/gatherly-mark.svg",
+      "email_id": "help@commonground.org",
+      "phone_no": "+91 98111 22334",
+      "verification_status": "UNVERIFIED",
+      "description": "Common Ground Delhi helps residents navigate and access locally available community resources.",
+      "organization_type": "Community Organization"
+    }
+  }
+]

@@ -27,5 +27,19 @@ export const routes: Routes = [
         (module) => module.CitizenRegistrationComponent
       )
   },
+  {
+    path: 'discover-services',
+    loadComponent: () =>
+      import('./features/citizen/explore/discover-services.component').then(
+        (module) => module.DiscoverServicesComponent
+      )
+  },
+  {
+    path: 'discover-services/:id',
+    loadComponent: () =>
+      import('./features/citizen/explore/service-details.component').then(
+        (module) => module.ServiceDetailsComponent
+      )
+  },
   { path: '**', redirectTo: 'login' }
 ];

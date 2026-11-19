@@ -1,0 +1,79 @@
+<app-header />
+
+<main class="details-page">
+  <a class="back-link" routerLink="/discover-services">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20v-2Z"/></svg>
+    Back to Discover Services
+  </a>
+
+  <div class="loading-state" *ngIf="isLoading" role="status">
+    <span class="spinner"></span>
+    <p>Loading service details...</p>
+  </div>
+
+  <div class="error-state" *ngIf="errorMessage && !isLoading">
+    <h1>{{ errorMessage }}</h1>
+    <button type="button" (click)="loadService()">Try Again</button>
+  </div>
+
+  <article class="details-layout" *ngIf="service && !isLoading">
+    <div class="service-column">
+      <section class="service-hero">
+        <img [src]="service.image_url || '/assets/images/services/community.svg'" [alt]="service.service_name"/>
+        <div class="hero-overlay">
+          <span>{{ service.category }}</span>
+          <h1>{{ service.service_name }}</h1>
+        </div>
+      </section>
+
+      <section class="content-card">
+        <p class="eyebrow">SERVICE INFORMATION</p>
+        <h2>About this service</h2>
+        <p class="full-description">{{ service.full_description }}</p>
+        <div class="detail-list">
+          <div>
+            <span>Category</span>
+            <strong>{{ service.category }}</strong>
+          </div>
+          <div>
+            <span>Location</span>
+            <strong>{{ service.location }}</strong>
+          </div>
+        </div>
+        <div class="supporting" *ngIf="service.supporting_information?.length">
+          <h3>Supporting Information</h3>
+          <ul>
+            <li *ngFor="let item of service.supporting_information">{{ item }}</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <aside class="organization-card">
+      <p class="eyebrow">ORGANIZATION</p>
+      <div class="organization-heading">
+        <img [src]="service.organization.profile_pic || '/assets/images/logo/gatherly-mark.svg'" [alt]="service.organization.organization_name"/>
+        <div>
+          <h2>{{ service.organization.organization_name }}</h2>
+          <span *ngIf="service.organization.verification_status === 'VERIFIED'" class="verified">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.2 16.2-4-4L3.8 13.6l5.4 5.4 11-11-1.4-1.4-9.6 9.6Z"/></svg>
+            Verified organization
+          </span>
+          <span *ngIf="service.organization.verification_status !== 'VERIFIED'" class="verification-status">
+            {{ service.organization.verification_status | titlecase }}
+          </span>
+        </div>
+      </div>
+      <p class="organization-description">{{ service.organization.description || 'Organization information is available on Gatherly.' }}</p>
+      <dl>
+        <div><dt>Organization Type</dt><dd>{{ service.organization.organization_type }}</dd></div>
+        <div><dt>Address</dt><dd>{{ service.organization.organization_address }}</dd></div>
+        <div *ngIf="service.organization.website_url"><dt>Website</dt><dd><a [href]="service.organization.website_url" target="_blank" rel="noopener noreferrer">Visit website</a></dd></div>
+        <div *ngIf="service.organization.email_id"><dt>Email</dt><dd><a [href]="'mailto:' + service.organization.email_id">{{ service.organization.email_id }}</a></dd></div>
+        <div *ngIf="service.organization.phone_no"><dt>Phone</dt><dd><a [href]="'tel:' + service.organization.phone_no">{{ service.organization.phone_no }}</a></dd></div>
+      </dl>
+    </aside>
+  </article>
+</main>
+
+<app-footer />
