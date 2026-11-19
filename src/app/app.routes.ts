@@ -290,5 +290,79 @@ export const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'user-organizer',
+    canActivate: [authGuard, roleGuard],
+    data: { role: 'user-organizer' },
+    loadComponent: () =>
+      import('./layouts/dashboard-layout/dashboard-layout.component').then(
+        (module) => module.DashboardLayoutComponent
+      ),
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/user-organizer/dashboard/dashboard.component').then(
+            (module) => module.UserOrganizerDashboardComponent
+          )
+      },
+      {
+        path: 'organizer-profile',
+        data: { kind: 'organizer-profile' },
+        loadComponent: () =>
+          import('./features/user-organizer/management/management.component').then(
+            (module) => module.UserOrganizerManagementComponent
+          )
+      },
+      {
+        path: 'my-services',
+        data: { kind: 'services' },
+        loadComponent: () =>
+          import('./features/user-organizer/management/management.component').then(
+            (module) => module.UserOrganizerManagementComponent
+          )
+      },
+      {
+        path: 'my-events',
+        data: { kind: 'events' },
+        loadComponent: () =>
+          import('./features/user-organizer/management/management.component').then(
+            (module) => module.UserOrganizerManagementComponent
+          )
+      },
+      {
+        path: 'create-event',
+        loadComponent: () =>
+          import('./features/organization/events/create-event.component').then(
+            (module) => module.OrganizationCreateEventComponent
+          )
+      },
+      {
+        path: 'event-participants',
+        data: { kind: 'participants' },
+        loadComponent: () =>
+          import('./features/user-organizer/management/management.component').then(
+            (module) => module.UserOrganizerManagementComponent
+          )
+      },
+      {
+        path: 'profile',
+        data: { role: 'user-organizer' },
+        loadComponent: () =>
+          import('./features/citizen/profile/profile.component').then(
+            (module) => module.CitizenProfileComponent
+          )
+      },
+      {
+        path: 'settings',
+        data: { role: 'user-organizer' },
+        loadComponent: () =>
+          import('./features/citizen/settings/settings.component').then(
+            (module) => module.CitizenSettingsComponent
+          )
+      }
+    ]
+  },
   { path: '**', redirectTo: 'login' }
 ];

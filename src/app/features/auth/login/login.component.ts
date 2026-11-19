@@ -61,7 +61,9 @@ export class LoginComponent {
         this.isLoading = false;
         const destination = response.role === 'admin'
           ? ['/admin/dashboard']
-          : response.role === 'organization'
+          : response.role === 'user-organizer'
+            ? ['/user-organizer/dashboard']
+            : response.role === 'organization'
             ? ['/organization/dashboard']
             : ['/citizen/dashboard'];
         void this.router.navigate(destination);

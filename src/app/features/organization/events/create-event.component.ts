@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-organization-create-event',
@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class OrganizationCreateEventComponent {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
   readonly categories = ['NGO and Support', 'Health Centers', 'Learning Centers', 'Community Events'];
   readonly eventForm = this.formBuilder.nonNullable.group({
     title: ['', [Validators.required, Validators.maxLength(100)]],
@@ -25,6 +26,9 @@ export class OrganizationCreateEventComponent {
   });
   coverPreview = '/assets/images/services/community.svg';
   message = '';
+  get returnPath(): string {
+    return this.router.url.startsWith('/user-organizer') ? '/user-organizer/my-events' : '/organization/my-events';
+  }
 
   onCoverSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -40,6 +44,6 @@ export class OrganizationCreateEventComponent {
       this.eventForm.markAllAsTouched();
       return;
     }
-    this.message = 'The event is ready to be submitted through the connected organization API.';
+    this.message = 'The event is ready to be submitted through the connected event API.';
   }
 }

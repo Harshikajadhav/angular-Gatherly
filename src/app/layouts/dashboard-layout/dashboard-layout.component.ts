@@ -44,17 +44,29 @@ export class DashboardLayoutComponent {
     { label: 'My Profile', route: '/organization/profile', icon: 'profile' },
     { label: 'Settings', route: '/organization/settings', icon: 'settings' }
   ];
+  readonly userOrganizerNavItems: DashboardNavItem[] = [
+    { label: 'Dashboard', route: '/user-organizer/dashboard', icon: 'dashboard' },
+    { label: 'My Organizer Profile', route: '/user-organizer/organizer-profile', icon: 'organization' },
+    { label: 'My Services', route: '/user-organizer/my-services', icon: 'services' },
+    { label: 'My Events', route: '/user-organizer/my-events', icon: 'events' },
+    { label: 'Create Event', route: '/user-organizer/create-event', icon: 'calendar' },
+    { label: 'Event Participants', route: '/user-organizer/event-participants', icon: 'profile' },
+    { label: 'My Profile', route: '/user-organizer/profile', icon: 'profile' },
+    { label: 'Settings', route: '/user-organizer/settings', icon: 'settings' }
+  ];
   pageTitle = 'Dashboard';
   sidebarOpen = false;
   userName = 'Aarav Sharma';
   profilePic = '/assets/images/logo/gatherly-mark.svg';
   isAdmin = false;
   isOrganization = false;
+  isUserOrganizer = false;
 
   constructor(private readonly router: Router) {
     this.isAdmin = this.router.url.startsWith('/admin');
     this.isOrganization = this.router.url.startsWith('/organization');
-    this.userName = this.isAdmin ? 'Priya Menon' : this.isOrganization ? 'CareBridge Foundation' : 'Aarav Sharma';
+    this.isUserOrganizer = this.router.url.startsWith('/user-organizer');
+    this.userName = this.isAdmin ? 'Priya Menon' : this.isOrganization ? 'CareBridge Foundation' : this.isUserOrganizer ? 'Rohan Kapoor' : 'Aarav Sharma';
     this.updateTitle(this.router.url);
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
       this.updateTitle((event as NavigationEnd).urlAfterRedirects);
@@ -63,11 +75,11 @@ export class DashboardLayoutComponent {
   }
 
   get navItems(): DashboardNavItem[] {
-    return this.isAdmin ? this.adminNavItems : this.isOrganization ? this.organizationNavItems : this.citizenNavItems;
+    return this.isAdmin ? this.adminNavItems : this.isOrganization ? this.organizationNavItems : this.isUserOrganizer ? this.userOrganizerNavItems : this.citizenNavItems;
   }
 
   get portalLabel(): string {
-    return this.isAdmin ? 'Admin Portal' : this.isOrganization ? 'Organization Portal' : 'Citizen Portal';
+    return this.isAdmin ? 'Admin Portal' : this.isOrganization ? 'Organization Portal' : this.isUserOrganizer ? 'User Organizer Portal' : 'Citizen Portal';
   }
 
   private updateTitle(url: string): void {
@@ -100,10 +112,22 @@ export class DashboardLayoutComponent {
       '/organization/profile': 'My Profile',
       '/organization/settings': 'Settings'
     };
+    const organizerTitles: Record<string, string> = {
+      '/user-organizer/dashboard': 'Dashboard',
+      '/user-organizer/organizer-profile': 'My Organizer Profile',
+      '/user-organizer/my-services': 'My Services',
+      '/user-organizer/my-events': 'My Events',
+      '/user-organizer/create-event': 'Create Event',
+      '/user-organizer/event-participants': 'Event Participants',
+      '/user-organizer/profile': 'My Profile',
+      '/user-organizer/settings': 'Settings'
+    };
     this.pageTitle = this.isAdmin
       ? adminTitles[url] || 'Admin Dashboard'
       : this.isOrganization
         ? organizationTitles[url] || 'Organization Dashboard'
+        : this.isUserOrganizer
+          ? organizerTitles[url] || 'User Organizer Dashboard'
       : titles[url] || (url.startsWith('/citizen/events/') ? 'Event Details' : 'Citizen Dashboard');
   }
 }

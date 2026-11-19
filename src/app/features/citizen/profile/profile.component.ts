@@ -4,6 +4,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CitizenDataService } from '../../../core/services/citizen-data.service';
 import { AdminDataService } from '../../../core/services/admin-data.service';
+import { UserOrganizerDataService } from '../../../core/services/user-organizer-data.service';
+import { UserOrganizerProfile } from '../../../core/models/user-organizer.model';
 
 @Component({
   selector: 'app-citizen-profile',
@@ -16,6 +18,7 @@ export class CitizenProfileComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly citizenData = inject(CitizenDataService);
   private readonly adminData = inject(AdminDataService);
+  private readonly organizerData = inject(UserOrganizerDataService);
   private readonly route = inject(ActivatedRoute);
 
   readonly profileForm = this.formBuilder.nonNullable.group({
@@ -32,12 +35,16 @@ export class CitizenProfileComponent implements OnInit {
   statusMessage = '';
   isAdmin = false;
   isOrganization = false;
+  isUserOrganizer = false;
+  private organizerProfile?: UserOrganizerProfile;
 
   ngOnInit(): void {
     this.isAdmin = this.route.snapshot.parent?.data['role'] === 'admin';
     this.isOrganization = this.route.snapshot.parent?.data['role'] === 'organization';
-    const profileRequest = this.isAdmin || this.isOrganization ? this.adminData.getProfile() : this.citizenData.getProfile();
+    this.isUserOrganizer = this.route.snapshot.parent?.data['role'] === 'user-organizer';
+    const profileRequest = this.isUserOrganizer ? this.organizerData.getProfile() : this.isAdmin || this.isOrganization ? this.adminData.getProfile() : this.citizenData.getProfile();
     profileRequest.subscribe((profile) => {
+      if (this.isUserOrganizer) this.organizerProfile = profile as UserOrganizerProfile;
       this.profileForm.patchValue(profile);
       this.profilePreview = profile.profile_pic;
       this.isLoading = false;
@@ -63,7 +70,9 @@ export class CitizenProfileComponent implements OnInit {
       return;
     }
     this.isSaving = true;
-    const updateRequest = this.isAdmin || this.isOrganization
+    const updateRequest = this.isUserOrganizer
+      ? this.organizerData.updateProfile({ ...this.organizerProfile, ...this.profileForm.getRawValue(), bio: this.organizerProfile?.bio || '', interests: this.organizerProfile?.interests || '' })
+      : this.isAdmin || this.isOrganization
       ? this.adminData.updateProfile(this.profileForm.getRawValue())
       : this.citizenData.updateProfile(this.profileForm.getRawValue());
     updateRequest.subscribe((profile) => {
@@ -74,7 +83,7 @@ export class CitizenProfileComponent implements OnInit {
   }
 
   cancel(): void {
-    const profileRequest = this.isAdmin || this.isOrganization ? this.adminData.getProfile() : this.citizenData.getProfile();
+    const profileRequest = this.isUserOrganizer ? this.organizerData.getProfile() : this.isAdmin || this.isOrganization ? this.adminData.getProfile() : this.citizenData.getProfile();
     profileRequest.subscribe((profile) => {
       this.profileForm.reset(profile);
       this.profilePreview = profile.profile_pic;

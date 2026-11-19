@@ -20,6 +20,7 @@ export class CitizenSettingsComponent {
 
   isAdmin = false;
   isOrganization = false;
+  isUserOrganizer = false;
   accountEmail = 'aarav.sharma@example.com';
   emailNotifications = true;
   eventReminders = true;
@@ -34,7 +35,8 @@ export class CitizenSettingsComponent {
   constructor() {
     this.isAdmin = this.route.snapshot.parent?.data['role'] === 'admin';
     this.isOrganization = this.route.snapshot.parent?.data['role'] === 'organization';
-    this.accountEmail = this.isAdmin ? 'priya.menon@gatherly.org' : this.isOrganization ? 'hello@carebridge.org' : this.accountEmail;
+    this.isUserOrganizer = this.route.snapshot.parent?.data['role'] === 'user-organizer';
+    this.accountEmail = this.isAdmin ? 'priya.menon@gatherly.org' : this.isOrganization ? 'hello@carebridge.org' : this.isUserOrganizer ? 'rohan.organizer@example.com' : this.accountEmail;
   }
 
   savePreferences(): void {

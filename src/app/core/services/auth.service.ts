@@ -34,6 +34,8 @@ export class AuthService {
     const email = request.email.toLowerCase();
     const role = email.includes('admin')
       ? 'admin' as const
+      : email.includes('organizer')
+        ? 'user-organizer' as const
       : email.includes('org')
         ? 'organization' as const
         : 'citizen' as const;
