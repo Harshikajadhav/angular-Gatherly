@@ -1,1 +1,7 @@
-<router-outlet />
+<div class="dashboard-shell">
+  <app-sidebar [items]="navItems" [roleLabel]="portalLabel" [homeRoute]="isAdmin ? '/admin/dashboard' : isOrganization ? '/organization/dashboard' : '/citizen/dashboard'" [userName]="userName" [open]="sidebarOpen" (close)="sidebarOpen = false" />
+  <div class="dashboard-frame">
+    <app-dashboard-header [title]="pageTitle" [portalLabel]="portalLabel" [rootPath]="isAdmin ? '/admin' : isOrganization ? '/organization' : '/citizen'" [userName]="userName" [profilePic]="profilePic" (menuToggle)="sidebarOpen = !sidebarOpen" />
+    <main class="dashboard-main"><router-outlet /></main>
+  </div>
+</div>

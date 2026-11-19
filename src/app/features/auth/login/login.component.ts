@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
@@ -21,7 +21,8 @@ export class LoginComponent {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly router: Router
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -54,9 +55,16 @@ export class LoginComponent {
     this.isLoading = true;
     this.authService.login(this.loginForm.getRawValue()).subscribe({
       next: (response) => {
+        sessionStorage.setItem('gatherly-role', response.role);
         this.statusType = 'success';
         this.statusMessage = response.message;
         this.isLoading = false;
+        const destination = response.role === 'admin'
+          ? ['/admin/dashboard']
+          : response.role === 'organization'
+            ? ['/organization/dashboard']
+            : ['/citizen/dashboard'];
+        void this.router.navigate(destination);
       },
       error: (error: Error) => {
         this.statusType = 'error';

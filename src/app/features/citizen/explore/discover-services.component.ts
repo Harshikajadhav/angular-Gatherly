@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
@@ -20,9 +20,17 @@ interface Category {
   styleUrl: './discover-services.component.css'
 })
 export class DiscoverServicesComponent {
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.isCitizenPortal = this.route.snapshot.data['portal'] === 'citizen';
+  }
 
   searchText = '';
+  isCitizenPortal = false;
 
   readonly categories: Category[] = [
     {
@@ -52,6 +60,9 @@ export class DiscoverServicesComponent {
   ];
 
   openCategory(category: Category): void {
-    void this.router.navigate(['/discover-services', category.slug]);
+    const prefix = this.route.snapshot.data['portal'] === 'citizen'
+      ? '/citizen/discover-services'
+      : '/discover-services';
+    void this.router.navigate([prefix, category.slug]);
   }
 }

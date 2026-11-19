@@ -1,4 +1,4 @@
-<app-header />
+<app-header *ngIf="!isCitizenPortal" />
 
 <main class="discover-page">
   <section class="hero">
@@ -37,4 +37,4 @@
   </section>
 </main>
 
-<app-footer />
+<app-footer *ngIf="!isCitizenPortal" />

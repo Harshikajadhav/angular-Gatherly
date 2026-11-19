@@ -1,7 +1,7 @@
-<app-header />
+<app-header *ngIf="!isCitizenPortal" />
 
 <main class="event-details-page">
-  <a class="back-link" [routerLink]="event ? ['/discover-services', categoryRoute] : '/discover-services'">
+  <a class="back-link" [routerLink]="event ? [portalPrefix + '/discover-services', categoryRoute] : portalPrefix + '/discover-services'">
     Back to Events
   </a>
 
@@ -68,4 +68,12 @@
   </article>
 </main>
 
-<app-footer />
+<app-confirmation-dialog
+  [open]="volunteerDialogOpen"
+  title="Volunteer for this event?"
+  message="Would you like to volunteer? After confirmation, you can contact the organization directly."
+  confirmLabel="Yes, volunteer"
+  (confirmed)="confirmVolunteer()"
+  (cancelled)="cancelVolunteer()" />
+
+<app-footer *ngIf="!isCitizenPortal" />

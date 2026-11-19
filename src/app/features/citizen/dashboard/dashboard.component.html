@@ -1,0 +1,38 @@
+<section class="dashboard-home">
+  <section class="welcome">
+    <div><p class="eyebrow">CITIZEN PORTAL</p><h2>Welcome back, {{ citizenName }}!</h2><p>Discover opportunities, participate in events and stay connected with your community.</p></div>
+    <span class="welcome-mark" aria-hidden="true">✦</span>
+  </section>
+
+  <section class="stats-grid" aria-label="Your activity summary">
+    <app-dashboard-stat-card label="Events Registered" [value]="registeredCount" detail="Across your community" icon="✓" />
+    <app-dashboard-stat-card label="Upcoming Events" [value]="upcomingEvents.length" detail="Ready for participation" icon="↗" accent="green" />
+    <app-dashboard-stat-card label="Completed Events" [value]="completedCount" detail="Your impact so far" icon="★" />
+    <app-dashboard-stat-card label="Available Events" [value]="recentlyAddedEvents.length + recommendedEvents.length" detail="Opportunities to explore" icon="＋" accent="green" />
+  </section>
+
+  <section class="dashboard-section" *ngIf="upcomingEvents.length">
+    <div class="section-heading"><div><p class="eyebrow">YOUR COMMITMENTS</p><h3>Upcoming Events</h3></div><a routerLink="/citizen/my-events">View all</a></div>
+    <div class="event-grid compact"><app-event-card *ngFor="let event of upcomingEvents" [event]="event" (details)="openEvent($event)" /></div>
+  </section>
+
+  <section class="dashboard-section" *ngIf="!isLoading">
+    <div class="section-heading"><div><p class="eyebrow">FOR YOU</p><h3>Recommended Events</h3></div><a routerLink="/citizen/discover-events">Discover all</a></div>
+    <div class="event-grid compact"><app-event-card *ngFor="let event of recommendedEvents" [event]="event" (details)="openEvent($event)" /></div>
+  </section>
+
+  <section class="dashboard-section" *ngIf="!isLoading">
+    <div class="section-heading"><div><p class="eyebrow">JUST ADDED</p><h3>Recently Added Events</h3></div><a routerLink="/citizen/discover-events">View all</a></div>
+    <div class="event-grid compact"><app-event-card *ngFor="let event of recentlyAddedEvents" [event]="event" (details)="openEvent($event)" /></div>
+  </section>
+
+  <section class="quick-actions">
+    <div class="section-heading"><div><p class="eyebrow">SHORTCUTS</p><h3>Quick Actions</h3></div></div>
+    <div class="quick-grid">
+      <a routerLink="/citizen/discover-services"><strong>Discover Services</strong><span>Find support in your community →</span></a>
+      <a routerLink="/citizen/discover-events"><strong>Discover Events</strong><span>Explore new opportunities →</span></a>
+      <a routerLink="/citizen/my-events"><strong>View My Events</strong><span>Manage your commitments →</span></a>
+      <a routerLink="/citizen/profile"><strong>Edit My Profile</strong><span>Keep your details current →</span></a>
+    </div>
+  </section>
+</section>

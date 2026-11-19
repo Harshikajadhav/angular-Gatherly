@@ -1,0 +1,18 @@
+<section class="profile-page">
+  <div class="page-intro"><p class="eyebrow">YOUR ACCOUNT</p><h2>My Profile</h2><p>Keep your personal details current so organizations can reach you when needed.</p></div>
+  <div class="profile-layout" *ngIf="!isLoading">
+    <aside class="profile-card"><img [src]="profilePreview" alt="Profile preview" /><h3>{{ profileForm.controls.first_name.value }} {{ profileForm.controls.last_name.value }}</h3><p>{{ isAdmin ? 'Administrator' : isOrganization ? 'Organization representative' : 'Citizen member' }}</p><label class="upload-button">Change picture<input type="file" accept="image/*" (change)="onImageSelected($event)" /></label></aside>
+    <form class="form-card" [formGroup]="profileForm" (ngSubmit)="save()" novalidate>
+      <div class="form-heading"><h3>Personal information</h3><span>Role: {{ isAdmin ? 'Admin' : isOrganization ? 'Organization' : 'Citizen' }}</span></div>
+      <div class="form-grid">
+        <label><span>First Name</span><input formControlName="first_name" /><small *ngIf="profileForm.controls.first_name.touched && profileForm.controls.first_name.invalid">Enter your first name.</small></label>
+        <label><span>Last Name</span><input formControlName="last_name" /><small *ngIf="profileForm.controls.last_name.touched && profileForm.controls.last_name.invalid">Enter your last name.</small></label>
+        <label><span>Email Address</span><input type="email" formControlName="email_id" /><small *ngIf="profileForm.controls.email_id.touched && profileForm.controls.email_id.invalid">Enter a valid email address.</small></label>
+        <label><span>Phone Number</span><input formControlName="phone_number" /><small *ngIf="profileForm.controls.phone_number.touched && profileForm.controls.phone_number.invalid">Enter a valid phone number.</small></label>
+        <label class="full"><span>Address</span><textarea rows="3" formControlName="address"></textarea><small *ngIf="profileForm.controls.address.touched && profileForm.controls.address.invalid">Address is required.</small></label>
+      </div>
+      <p class="status" *ngIf="statusMessage" role="status">{{ statusMessage }}</p>
+      <div class="form-actions"><button type="button" class="cancel" (click)="cancel()">Cancel</button><button type="submit" [disabled]="isSaving">{{ isSaving ? 'Saving...' : 'Save Changes' }}</button></div>
+    </form>
+  </div>
+</section>

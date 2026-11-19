@@ -47,8 +47,10 @@ export class CategoryEventsComponent implements OnInit {
   events: GatherlyEvent[] = [];
   isLoading = true;
   errorMessage = '';
+  isCitizenPortal = false;
 
   ngOnInit(): void {
+    this.isCitizenPortal = this.route.snapshot.data['portal'] === 'citizen';
     this.route.paramMap.subscribe((params) => {
       this.loadCategory(params.get('category') || '');
     });
@@ -74,6 +76,7 @@ export class CategoryEventsComponent implements OnInit {
   }
 
   openEvent(event: GatherlyEvent): void {
-    void this.router.navigate(['/events', event.id]);
+    const prefix = this.route.snapshot.data['portal'] === 'citizen' ? '/citizen/events' : '/events';
+    void this.router.navigate([prefix, event.id]);
   }
 }

@@ -1,1 +1,6 @@
-<dialog></dialog>
+<div class="dialog-backdrop" *ngIf="open" (click)="cancelled.emit()">
+  <section class="dialog-card" role="dialog" aria-modal="true" [attr.aria-label]="title" (click)="$event.stopPropagation()">
+    <span class="dialog-icon">?</span><h2>{{ title }}</h2><p>{{ message }}</p>
+    <div class="dialog-actions"><button type="button" class="cancel" (click)="cancelled.emit()">Cancel</button><button type="button" (click)="confirmed.emit()">{{ confirmLabel }}</button></div>
+  </section>
+</div>

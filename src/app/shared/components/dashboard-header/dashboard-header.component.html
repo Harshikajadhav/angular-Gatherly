@@ -1,0 +1,24 @@
+<header class="dashboard-header">
+  <div class="header-leading">
+    <button type="button" class="menu-button" (click)="menuToggle.emit()" aria-label="Open dashboard menu">☰</button>
+    <div><p class="breadcrumb">{{ portalLabel }}</p><h1>{{ title }}</h1></div>
+  </div>
+  <div class="header-actions">
+    <div class="notification-wrap">
+      <button type="button" class="icon-button" (click)="notificationsOpen = !notificationsOpen" aria-label="Notifications">⌕<span class="notification-dot"></span></button>
+      <div class="notification-panel" *ngIf="notificationsOpen">
+        <strong>Notifications</strong><p>Your next event is coming up soon.</p>
+      </div>
+    </div>
+    <div class="profile-wrap">
+      <button type="button" class="profile-button" (click)="profileOpen = !profileOpen" [attr.aria-expanded]="profileOpen">
+        <img [src]="profilePic" [alt]="userName" /><span>{{ userName }}</span><span class="chevron">⌄</span>
+      </button>
+      <div class="profile-menu" *ngIf="profileOpen">
+        <a [routerLink]="rootPath + '/profile'">My Profile</a>
+        <a [routerLink]="rootPath + '/settings'">Settings</a>
+        <a routerLink="/login">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>

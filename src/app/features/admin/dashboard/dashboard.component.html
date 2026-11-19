@@ -1,0 +1,23 @@
+<section class="admin-home">
+  <section class="welcome"><div><p class="eyebrow">ADMIN PORTAL</p><h2>Welcome back, Admin!</h2><p>Here's what's happening across your Gatherly community today.</p></div><span class="welcome-mark" aria-hidden="true">✦</span></section>
+  <section class="stats-grid" aria-label="Platform summary">
+    <app-dashboard-stat-card label="Total Users" [value]="users.length" detail="Registered accounts" icon="◉" />
+    <app-dashboard-stat-card label="Total Organizations" [value]="organizations.length" detail="Across the platform" icon="⌂" accent="green" />
+    <app-dashboard-stat-card label="Total Events" [value]="events.length" detail="Published opportunities" icon="▣" />
+    <app-dashboard-stat-card label="Pending Approvals" [value]="pendingOrganizations.length" detail="Need your review" icon="!" accent="green" />
+  </section>
+
+  <section class="admin-grid">
+    <article class="panel pending-panel"><div class="panel-heading"><div><p class="eyebrow">ACTION REQUIRED</p><h3>Pending Organization Verifications</h3></div><a routerLink="/admin/organization-verification">Review all</a></div><div class="pending-row" *ngFor="let organization of pendingOrganizations"><div><strong>{{ organization.organization_name }}</strong><span>{{ organization.registration_number }} · {{ organization.created_at | date: 'MMM d, y' }}</span></div><b>{{ organization.verification_status | titlecase }}</b><a [routerLink]="['/admin/organization-verification', organization.id]">View Application</a></div></article>
+    <article class="panel activity-panel"><div class="panel-heading"><div><p class="eyebrow">AUDIT TRAIL</p><h3>Recent Platform Activities</h3></div><a routerLink="/admin/reports">View all</a></div><div class="activity-row" *ngFor="let activity of activities"><span class="activity-dot"></span><div><strong>{{ activity.action }}</strong><span>{{ activity.actor }} · {{ activity.created_at }}</span></div></div></article>
+  </section>
+
+  <section class="admin-grid">
+    <article class="panel"><div class="panel-heading"><div><p class="eyebrow">ORGANIZATIONS</p><h3>Recently Registered Organizations</h3></div><a routerLink="/admin/organizations">Manage</a></div><div class="compact-row" *ngFor="let organization of organizations.slice(-3).reverse()"><img [src]="organization.profile_pic || '/assets/images/logo/gatherly-mark.svg'" [alt]="organization.organization_name" /><div><strong>{{ organization.organization_name }}</strong><span>{{ organization.email_id }} · {{ organization.created_at | date: 'MMM d, y' }}</span></div><b [class.pending]="organization.verification_status === 'PENDING'">{{ organization.verification_status | titlecase }}</b></div></article>
+    <article class="panel"><div class="panel-heading"><div><p class="eyebrow">USERS</p><h3>Recently Registered Users</h3></div><a routerLink="/admin/users">Manage</a></div><div class="compact-row" *ngFor="let user of users.slice(0, 3)"><span class="user-avatar">{{ user.first_name.charAt(0) }}</span><div><strong>{{ user.first_name }} {{ user.last_name }}</strong><span>{{ user.email_id }} · {{ user.created_at | date: 'MMM d, y' }}</span></div><b>{{ user.role | titlecase }}</b></div></article>
+  </section>
+
+  <section class="panel event-panel"><div class="panel-heading"><div><p class="eyebrow">CONTENT</p><h3>Recently Created Events</h3></div><a routerLink="/admin/events">Manage events</a></div><div class="event-row" *ngFor="let event of events.slice(-4).reverse()"><div><strong>{{ event.title }}</strong><span>{{ event.organization.organization_name }} · {{ event.location }}</span></div><b>{{ event.date | date: 'MMM d, y' }}</b><span class="status-pill">Published</span></div></section>
+
+  <section class="quick-actions"><div class="panel-heading"><div><p class="eyebrow">SHORTCUTS</p><h3>Quick Actions</h3></div></div><div class="quick-grid"><a routerLink="/admin/organization-verification"><strong>Review Pending Organizations</strong><span>Verify new applications →</span></a><a routerLink="/admin/users"><strong>Manage Users</strong><span>Inspect account activity →</span></a><a routerLink="/admin/events"><strong>Manage Events</strong><span>Review platform events →</span></a><a routerLink="/admin/reports"><strong>Review Reports</strong><span>Resolve user complaints →</span></a></div></section>
+</section>

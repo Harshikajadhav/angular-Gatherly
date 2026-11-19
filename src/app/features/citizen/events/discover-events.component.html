@@ -1,0 +1,13 @@
+<section class="events-page">
+  <div class="page-intro"><div><p class="eyebrow">EXPLORE</p><h2>Discover Events</h2><p>Find meaningful ways to connect, learn and make an impact in your community.</p></div><span class="result-count">{{ filteredEvents.length }} events</span></div>
+  <section class="filter-card" aria-label="Event filters">
+    <label class="search-field"><span>Search events</span><input [(ngModel)]="searchText" type="search" placeholder="Search by event name..." /></label>
+    <label><span>Category</span><select [(ngModel)]="category"><option value="">All categories</option><option *ngFor="let item of categories" [value]="item">{{ item }}</option></select></label>
+    <label><span>Location</span><select [(ngModel)]="location"><option value="">All locations</option><option *ngFor="let item of locations" [value]="item">{{ item }}</option></select></label>
+    <label><span>Date</span><input [(ngModel)]="date" type="date" /></label>
+    <label><span>Sort by</span><select [(ngModel)]="sort"><option value="date">Date</option><option value="name">Name</option></select></label>
+  </section>
+  <div class="loading-state" *ngIf="isLoading">Loading events...</div>
+  <div class="event-grid" *ngIf="!isLoading && filteredEvents.length"><app-event-card *ngFor="let event of filteredEvents" [event]="event" (details)="openEvent($event)" /></div>
+  <div class="empty-state" *ngIf="!isLoading && !filteredEvents.length"><h3>No events found</h3><p>Try adjusting your search or filters.</p></div>
+</section>
