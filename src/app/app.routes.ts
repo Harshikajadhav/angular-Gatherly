@@ -35,10 +35,17 @@ export const routes: Routes = [
       )
   },
   {
-    path: 'discover-services/:id',
+    path: 'discover-services/:category',
     loadComponent: () =>
-      import('./features/citizen/explore/service-details.component').then(
-        (module) => module.ServiceDetailsComponent
+      import('./features/citizen/explore/category-events.component').then(
+        (module) => module.CategoryEventsComponent
+      )
+  },
+  {
+    path: 'events/:eventId',
+    loadComponent: () =>
+      import('./features/citizen/explore/event-details.component').then(
+        (module) => module.EventDetailsComponent
       )
   },
   { path: '**', redirectTo: 'login' }

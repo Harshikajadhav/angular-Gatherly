@@ -1,0 +1,71 @@
+<app-header />
+
+<main class="event-details-page">
+  <a class="back-link" [routerLink]="event ? ['/discover-services', categoryRoute] : '/discover-services'">
+    Back to Events
+  </a>
+
+  <div class="loading-state" *ngIf="isLoading" role="status">
+    <span class="spinner"></span>
+    <p>Loading event details...</p>
+  </div>
+
+  <section class="error-state" *ngIf="errorMessage && !isLoading">
+    <h1>{{ errorMessage }}</h1>
+    <a routerLink="/discover-services">Browse service categories</a>
+  </section>
+
+  <article class="event-layout" *ngIf="event && !isLoading">
+    <div class="event-main">
+      <section class="event-hero">
+        <img [src]="event.image_url || '/assets/images/services/community.svg'" [alt]="event.title" />
+        <div>
+          <p class="eyebrow">{{ event.category }}</p>
+          <h1>{{ event.title }}</h1>
+        </div>
+      </section>
+
+      <section class="content-card">
+        <p class="eyebrow">ABOUT THIS EVENT</p>
+        <h2>Event details</h2>
+        <p>{{ event.full_description }}</p>
+        <dl class="event-facts">
+          <div><dt>Date</dt><dd>{{ event.date | date: 'EEEE, MMMM d, y' }}</dd></div>
+          <div><dt>Time</dt><dd>{{ event.start_time }} - {{ event.end_time }}</dd></div>
+          <div><dt>Location</dt><dd>{{ event.location }}</dd></div>
+        </dl>
+      </section>
+
+      <section class="content-card participation-card">
+        <p class="eyebrow">GET INVOLVED</p>
+        <h2>Join this event</h2>
+        <p>Reserve your place or offer your time to support this community activity.</p>
+        <div class="actions">
+          <button type="button" (click)="register()">Register for this Event</button>
+          <button type="button" class="secondary" (click)="volunteer()">Volunteer for this Event</button>
+        </div>
+        <p class="confirmation" *ngIf="confirmationMessage" role="status">{{ confirmationMessage }}</p>
+      </section>
+    </div>
+
+    <aside class="organization-card">
+      <p class="eyebrow">ORGANIZATION</p>
+      <div class="organization-heading">
+        <img [src]="event.organization.profile_pic || '/assets/images/logo/gatherly-mark.svg'" [alt]="event.organization.organization_name" />
+        <div>
+          <h2>{{ event.organization.organization_name }}</h2>
+          <span *ngIf="event.organization.verification_status === 'VERIFIED'" class="verified">✓ Verified organization</span>
+          <span *ngIf="event.organization.verification_status !== 'VERIFIED'" class="verification-status">{{ event.organization.verification_status | titlecase }}</span>
+        </div>
+      </div>
+      <p>{{ event.organization.description }}</p>
+      <dl>
+        <div><dt>Address</dt><dd>{{ event.organization.organization_address }}</dd></div>
+        <div *ngIf="event.organization.email_id"><dt>Email</dt><dd><a [href]="'mailto:' + event.organization.email_id">{{ event.organization.email_id }}</a></dd></div>
+        <div *ngIf="event.organization.phone_no"><dt>Phone</dt><dd><a [href]="'tel:' + event.organization.phone_no">{{ event.organization.phone_no }}</a></dd></div>
+      </dl>
+    </aside>
+  </article>
+</main>
+
+<app-footer />

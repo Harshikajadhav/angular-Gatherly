@@ -1,0 +1,32 @@
+<app-header />
+
+<main class="category-page">
+  <a class="back-link" routerLink="/discover-services">Back to Discover Services</a>
+
+  <section class="category-heading" *ngIf="category && !errorMessage">
+    <p class="eyebrow">EVENTS</p>
+    <h1>{{ category.name }}</h1>
+    <p>{{ category.description }}</p>
+  </section>
+
+  <div class="loading-state" *ngIf="isLoading" role="status">
+    <span class="spinner"></span>
+    <p>Loading events...</p>
+  </div>
+
+  <section class="error-state" *ngIf="errorMessage && !isLoading">
+    <h1>{{ errorMessage }}</h1>
+    <a routerLink="/discover-services">Browse service categories</a>
+  </section>
+
+  <section class="event-grid" *ngIf="category && !isLoading && !errorMessage" aria-label="Events">
+    <app-event-card *ngFor="let event of events" [event]="event" (details)="openEvent($event)" />
+  </section>
+
+  <section class="empty-state" *ngIf="category && !isLoading && !errorMessage && !events.length">
+    <h2>No events found</h2>
+    <p>There are no events available in this category yet.</p>
+  </section>
+</main>
+
+<app-footer />
